@@ -13,7 +13,9 @@ public class Graph {
 	private boolean isOriented;
 	private int nbVertices;
 	private int nbEdges;
-	private HashMap<Integer, Vertex> vertices = new HashMap<>();
+	private HashMap<Integer, Vertex> vertices;
+	private HashMap<Integer, Edge> edges;
+	private HashMap<Integer, LinkedList<Integer>> adjacencyList;
 
 	// Constructeur
 	public Graph(String filePath) {
@@ -33,22 +35,26 @@ public class Graph {
 
 				// Vertices
 				else if (line.startsWith("VERTICES")) {
+					this.vertices = new HashMap<>();
+					this.adjacencyList = new HashMap<>();
 					for (int i = 0; i < this.nbVertices; i++) {
 						line = scanner.nextLine();
 						String[] parts = line.split(" ");
 						vertices.put(Integer.parseInt(parts[0]), new Vertex(parts));
+						adjacencyList.put(Integer.parseInt(parts[0]), new LinkedList<>());
 					}
 				}
 
 				// Edges
 				else if (line.startsWith("EDGES")) {
+					this.edges = new HashMap<>();
 					for(int i = 0; i < this.nbEdges; i++) {
 						line = scanner.nextLine();
 						String[] parts = line.split(" ");
-						vertices.get(Integer.parseInt(parts[0])).addEdge(new Edge(parts, true));
-						if(!isOriented) {
-							vertices.get(Integer.parseInt(parts[1])).addEdge(new Edge(parts, false));
-						}
+						edges.put(i, new Edge(i, parts));
+						adjacencyList.get(Integer.parseInt(parts[0])).add(i);
+						if (!this.isOriented)
+							adjacencyList.get(Integer.parseInt(parts[1])).add(i);
 					}
 				}
 			}
@@ -62,9 +68,18 @@ public class Graph {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Graph is oriented: " + this.isOriented + "\n");
 		sb.append("Number of vertices: " + this.nbVertices + "\n");
+		sb.append("Number of edges: " + this.nbEdges + "\n\n");
 		sb.append("Vertices:\n");
 		for (Vertex vertex : vertices.values()) {
 			sb.append(vertex + "\n");
+		}
+		sb.append("\nEdges:\n");
+		for (Edge edge : edges.values()) {
+			sb.append(edge + "\n");
+		}
+		sb.append("\nAdjacency list:\n");
+		for (int vertex : adjacencyList.keySet()) {
+			sb.append(vertex + " -> " + adjacencyList.get(vertex) + "\n");
 		}
 		return sb.toString();
 	}
