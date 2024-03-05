@@ -2,7 +2,9 @@ package src;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -61,6 +63,35 @@ public class Graph {
 		}
 	}
 
+	public Map<Vertex, Integer> plusCourtCheminNbArcs(String startId) {
+		Map<Vertex, Integer> distances = new HashMap<>();
+		for (Vertex vertex : vertices) {
+			distances.put(vertex, Integer.MAX_VALUE);
+		}
+		Vertex startVertex = getVertexById(startId);
+		if (startVertex == null) {
+			return null; 
+		}
+		distances.put(startVertex, 0);
+	
+		Queue<Vertex> queue = new LinkedList<>();
+		queue.add(startVertex);
+	
+		while (!queue.isEmpty()) {
+			Vertex current = queue.poll();
+			for (Edge edge : edges) {
+				if (edge.initialVertex.equals(current.id)) {
+					Vertex next = getVertexById(edge.finalVertex);
+					if (distances.get(next) == Integer.MAX_VALUE) {
+						distances.put(next, distances.get(current) + 1);
+						queue.add(next);
+					}
+				}
+			}
+		}
+		return distances;
+	}
+
 	public int shortestPath(String startId, String endId) {
 		if (!vertexExists(startId) || !vertexExists(endId)) {
 			System.out.println("One of the vertices does not exist.");
@@ -115,3 +146,4 @@ public class Graph {
 		return null; // Doit gérer null dans le code appelant
 	}
 }
+
