@@ -4,9 +4,9 @@ import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) {
-		String filePath = "cours-representation.gra";
+		String filePath = "graphe-communes.gra";
 		Graph graph = new Graph(filePath);
-		graph.displayGraph();
+		System.out.println(graph);
 
 		// ID du sommet de départ pour calculer les plus courts chemins
         String startVertexId2 = "0";

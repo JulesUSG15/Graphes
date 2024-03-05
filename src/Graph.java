@@ -1,9 +1,11 @@
 package src;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
@@ -12,84 +14,61 @@ import java.util.Scanner;
 public class Graph {
 	private boolean isOriented;
 	private int nbVertices;
-	private ArrayList<Vertex> vertices = new ArrayList<>();
-	private ArrayList<Edge> edges = new ArrayList<>();
+	private int nbEdges;
+	private HashMap<Integer, Vertex> vertices = new HashMap<>();
 
 	// Constructeur
 	public Graph(String filePath) {
-		importGraph(filePath);
-	}
-
-	private void importGraph(String filePath) {
-		try {
-			File file = new File(filePath);
-			Scanner scanner = new Scanner(file);
+		try (Scanner scanner = new Scanner(new File(filePath))) {
 			while (scanner.hasNextLine()) {
+				// Header
 				String line = scanner.nextLine();
 				if (line.startsWith("ORIENTED:")) {
 					this.isOriented = line.split(" ")[1].trim().equals("true");
-				} else if (line.startsWith("NB_VERTICES:")) {
+				}
+				else if (line.startsWith("NB_VERTICES:")) {
 					this.nbVertices = Integer.parseInt(line.split(" ")[1].trim());
-				} else if (line.startsWith("VERTICES")) {
+				}
+				else if (line.startsWith("NB_EDGES:")) {
+					this.nbEdges = Integer.parseInt(line.split(" ")[1].trim());
+				}
+
+				// Vertices
+				else if (line.startsWith("VERTICES")) {
 					for (int i = 0; i < this.nbVertices; i++) {
 						line = scanner.nextLine();
 						String[] parts = line.split(" ");
-						vertices.add(new Vertex(parts[0], parts[1], Integer.parseInt(parts[2])));
+						vertices.put(Integer.parseInt(parts[0]), new Vertex(parts));
 					}
-				} else if (line.startsWith("EDGES")) {
-					while (scanner.hasNextLine()) {
+				}
+
+				// Edges
+				else if (line.startsWith("EDGES")) {
+					for(int i = 0; i < this.nbEdges; i++) {
 						line = scanner.nextLine();
 						String[] parts = line.split(" ");
-						edges.add(new Edge(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+						vertices.get(Integer.parseInt(parts[0])).addEdge(new Edge(parts, true));
+						if(!isOriented) {
+							vertices.get(Integer.parseInt(parts[1])).addEdge(new Edge(parts, false));
+						}
 					}
 				}
 			}
-			scanner.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void displayGraph() {
-		System.out.println("Graph is oriented: " + this.isOriented);
-		System.out.println("Number of vertices: " + this.nbVertices);
-		System.out.println("Vertices:");
-		for (Vertex vertex : vertices) {
-			System.out.println(vertex);
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Graph is oriented: " + this.isOriented + "\n");
+		sb.append("Number of vertices: " + this.nbVertices + "\n");
+		sb.append("Vertices:\n");
+		for (Vertex vertex : vertices.values()) {
+			sb.append(vertex + "\n");
 		}
-		System.out.println("Edges:");
-		for (Edge edge : edges) {
-			System.out.println(edge);
-		}
-	}
-
-	public Map<Vertex, Integer> plusCourtCheminNbArcs(String startId) {
-		Map<Vertex, Integer> distances = new HashMap<>();
-		for (Vertex vertex : vertices) {
-			distances.put(vertex, Integer.MAX_VALUE);
-		}
-		Vertex startVertex = getVertexById(startId);
-		if (startVertex == null) {
-			return null; 
-		}
-		distances.put(startVertex, 0);
-	
-		Queue<Vertex> queue = new LinkedList<>();
-		queue.add(startVertex);
-	
-		while (!queue.isEmpty()) {
-			Vertex current = queue.poll();
-			for (Edge edge : edges) {
-				if (edge.initialVertex.equals(current.id)) {
-					Vertex next = getVertexById(edge.finalVertex);
-					if (distances.get(next) == Integer.MAX_VALUE) {
-						distances.put(next, distances.get(current) + 1);
-						queue.add(next);
-					}
-				}
-			}
-		}
-		return distances;
+		return sb.toString();
 	}
 
 	public int shortestPath(String startId, String endId) {
@@ -102,7 +81,7 @@ public class Graph {
 		Vertex startVertex = getVertexById(startId);
 		queue.add(startVertex);
 
-		// Stocke les distances des sommets depuis le sommet de départ
+	// 	// Stocke les distances des sommets depuis le sommet de départ
 		int[] distances = new int[vertices.size()];
 		for (int i = 0; i < distances.length; i++) {
 			distances[i] = -1; // Initialisation avec -1 pour indiquer que le sommet n'a pas encore été visité

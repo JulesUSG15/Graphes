@@ -1,19 +1,36 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 class Vertex {
-	String id;
+	int id;
 	String name;
-	int value;
+	List<Integer> values;
+	LinkedList<Edge> edges;
 
-	Vertex(String id, String name, int value) {
-		this.id = id;
-		this.name = name;
-		this.value = value;
+	Vertex(String[] args) {
+		this.id = Integer.parseInt(args[0]);
+		this.name = args[1];
+		this.values = new ArrayList<>();
+		for (int i = 2; i < args.length; i++) {
+			this.values.add(Integer.parseInt(args[i]));
+		}
+		this.edges = new LinkedList<>();
+	}
+
+	public void addEdge(Edge edge) {
+		this.edges.add(edge);
 	}
 
 	@Override
 	public String toString() {
-		return id + " " + name + " " + value;
+		StringBuilder sb = new StringBuilder();
+		sb.append(id + " " + name + " " + values + "\n Edges:\n");
+		for (Edge edge : edges) {
+			sb.append(edge + "\n");
+		}
+		return sb.toString();
 	}
 }
