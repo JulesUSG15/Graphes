@@ -1,0 +1,23 @@
+NAME: cours-representation.gra
+COMMENT: graphe du cours illustrant la représentation d'un graphe en machine
+ORIENTED: true
+NB_VERTICES: 5
+NB_VALUES_BY_VERTEX: 1
+NB_EDGES: 7
+NB_VALUES_BY_EDGE: 2
+
+VERTICES [id name values[]]:
+0 a 2
+1 b 3
+2 c 6
+3 d 7
+4 e 1
+
+EDGES [idInitialVertex idFinalVertex values[]]:
+0 1 3 8
+0 2 2 7
+0 3 3 3
+1 3 2 5
+1 4 1 6
+2 3 1 4
+4 3 3 9
