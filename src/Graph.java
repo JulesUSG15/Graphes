@@ -2,6 +2,7 @@ package src;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashMap;
@@ -83,4 +84,37 @@ public class Graph {
 		}
 		return sb.toString();
 	}
+
+	public Map<Integer, Integer> plusCourtCheminNbArcs(int sourceId) {
+        // Initialisation
+        Map<Integer, Integer> distances = new HashMap<>();
+        for (int vertexId : vertices.keySet()) {
+            distances.put(vertexId, Integer.MAX_VALUE); // On initialise la distance à l'infini
+        }
+        distances.put(sourceId, 0); // Distance du sommet source à lui-même est 0
+
+        // File pour le parcours en largeur
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(sourceId);
+
+        // Parcours en largeur
+        while (!queue.isEmpty()) {
+            int currentId = queue.poll(); // Récupération du sommet courant
+            Vertex currentVertex = vertices.get(currentId);
+
+            // Pour chaque voisin du sommet courant
+            for (Edge edge : currentVertex.getEdges()) {
+                int neighborId = edge.getToId();
+                // Si on a trouvé un chemin plus court
+                if (distances.get(neighborId) == Integer.MAX_VALUE) {
+                    distances.put(neighborId, distances.get(currentId) + 1); // Mise à jour de la distance
+                    queue.add(neighborId); // Ajout du voisin à explorer
+                }
+            }
+        }
+
+        return distances;
+    }
+
+	
 }

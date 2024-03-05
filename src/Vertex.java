@@ -21,4 +21,12 @@ class Vertex {
 	public String toString() {
 		return id + " " + name + " " + values;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public List<Edge> getEdges() {
+        return edges;
+    }
 }
