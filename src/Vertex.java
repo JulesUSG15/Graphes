@@ -25,8 +25,4 @@ class Vertex {
 	public int getId() {
 		return id;
 	}
-
-	public List<Edge> getEdges() {
-        return edges;
-    }
 }

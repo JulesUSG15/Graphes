@@ -8,7 +8,6 @@ class Edge {
 	int idInitialVertex;
 	int idFinalVertex;
 	List<Integer> values;
-	private int toId; //
 
 	Edge(int id, String[] args) {
 		this.id = id;
@@ -18,7 +17,6 @@ class Edge {
 		for (int i = 2; i < args.length; i++) {
 			this.values.add(Integer.parseInt(args[i]));
 		}
-		this.toId = Integer.parseInt(args[1]);
 	}
 
 	@Override
@@ -26,7 +24,7 @@ class Edge {
 		return idInitialVertex + " " + idFinalVertex + " " + values;
 	}
 
-	public int getToId() {
-        return toId;
+	public int getId() {
+        return id;
     }
 }

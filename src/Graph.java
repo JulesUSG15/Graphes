@@ -104,7 +104,7 @@ public class Graph {
 
             // Pour chaque voisin du sommet courant
             for (Edge edge : currentVertex.getEdges()) {
-                int neighborId = edge.getToId();
+                int neighborId = edge.getId();
                 // Si on a trouvé un chemin plus court
                 if (distances.get(neighborId) == Integer.MAX_VALUE) {
                     distances.put(neighborId, distances.get(currentId) + 1); // Mise à jour de la distance
