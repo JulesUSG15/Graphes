@@ -3,9 +3,9 @@ package src;
 
 public class Main {
 	public static void main(String[] args) {
-		String filePath = "cours-representation.gra";
+		String filePath = "graphe-communes.gra";
 		Graph graph = new Graph(filePath);
-		graph.displayGraph();
+		System.out.println(graph);
 		String startVertexId = "0"; // ID du sommet de départ
 		String endVertexId = "4";   // ID du sommet d'arrivée
 		

@@ -1,21 +1,29 @@
 package src;
 
+import java.util.List;
+import java.util.ArrayList;
 
 class Edge {
-	String initialVertex;
-	String finalVertex;
-	int value1;
-	int value2;
+	int idInitialVertex;
+	int idFinalVertex;
+	List<Integer> values;
 
-	Edge(String initialVertex, String finalVertex, int value1, int value2) {
-		this.initialVertex = initialVertex;
-		this.finalVertex = finalVertex;
-		this.value1 = value1;
-		this.value2 = value2;
+	Edge(String[] args, boolean isOriented) {
+		if (isOriented) {
+			this.idInitialVertex = Integer.parseInt(args[0]);
+			this.idFinalVertex = Integer.parseInt(args[1]);
+		} else {
+			this.idInitialVertex = Integer.parseInt(args[1]);
+			this.idFinalVertex = Integer.parseInt(args[0]);
+		}
+		this.values = new ArrayList<>();
+		for (int i = 2; i < args.length; i++) {
+			this.values.add(Integer.parseInt(args[i]));
+		}
 	}
 
 	@Override
 	public String toString() {
-		return initialVertex + " -> " + finalVertex + " | " + value1 + ", " + value2;
+		return idInitialVertex + " " + idFinalVertex + " | " + values;
 	}
 }
