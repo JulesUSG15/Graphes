@@ -1,25 +1,28 @@
 package src;
 
+import java.util.List;
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "cours-representation.gra";
+        String filePath = "graphe-nonoriente-01.gra";
         Graph graph = new Graph(filePath);
 
-        // Affiche le graphe pour vérifier sa structure
         System.out.println(graph);
 
-        // Remplacez 0 par l'identifiant du sommet source à partir duquel vous souhaitez calculer le plus court chemin
-        int sourceId = 0;
+        int sourceVertex = 0;
+        Map<Integer, List<Integer>> resultats = graph.plusCourtsChemins(sourceVertex);
 
-        Map<Integer, Integer> shortestPaths = graph.plusCourtCheminNbArcs(sourceId);
-
-        System.out.println("Plus court chemin en nombre d'arcs depuis le sommet " + sourceId + " vers tous les autres sommets :");
-        for (Map.Entry<Integer, Integer> entry : shortestPaths.entrySet()) {
-            int targetId = entry.getKey();
-            int distance = entry.getValue();
-            System.out.println("Vers le sommet " + targetId + " : " + distance + " arc(s)");
+        System.out.println("Chemins les plus courts depuis le sommet " + sourceVertex + " :");
+        for (Map.Entry<Integer, List<Integer>> entry : resultats.entrySet()) {
+            System.out.println("Vers le sommet " + entry.getKey() + " : " + entry.getValue());
         }
+
+        int sourceVertex2 = 0;
+        int destinationVertex2 = 3;
+        List<Integer> resultats2 = graph.trouverPlusCourtChemin(sourceVertex2, destinationVertex2);
+
+        System.out.println("Chemin le plus court depuis le sommet " + sourceVertex2 + " vers le sommet " + destinationVertex2 + " : " + resultats2);
     }
 }
+
