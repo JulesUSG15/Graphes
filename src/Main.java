@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "graphe-nonoriente-01.gra";
+        String filePath = "graphe-oriente-01.gra";
         Graph graph = new Graph(filePath);
 
         System.out.println(graph);

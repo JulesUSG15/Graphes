@@ -1,0 +1,175 @@
+Dorian Tonnis et Jules Ginhac
+
+cours-representation.gra
+
+Graph is oriented: true
+Number of vertices: 5
+Number of edges: 7
+
+Vertices:
+0 a [2]
+1 b [3]
+2 c [6]
+3 d [7]
+4 e [1]
+
+Edges:
+0 1 [3, 8]
+0 2 [2, 7]
+0 3 [3, 3]
+1 3 [2, 5]
+1 4 [1, 6]
+2 3 [1, 4]
+4 3 [3, 9]
+
+Adjacency list:
+0 -> [0, 1, 2]
+1 -> [3, 4]
+2 -> [5]
+3 -> []
+4 -> [6]
+
+Chemins les plus courts depuis le sommet 0 :
+Vers le sommet 0 : [0]
+Vers le sommet 1 : [0, 1]
+Vers le sommet 2 : [0, 2]
+Vers le sommet 3 : [0, 3]
+Vers le sommet 4 : [0, 1, 4]
+Chemin le plus court depuis le sommet 0 vers le sommet 3 : [0, 3]
+
+
+graphe-nonoriente-01.gra
+
+Graph is oriented: false
+Number of vertices: 12
+Number of edges: 17
+
+Vertices:
+0 a []
+1 b []
+2 c []
+3 d []
+4 e []
+5 f []
+6 g []
+7 h []
+8 i []
+9 j []
+10 k []
+11 l []
+
+Edges:
+0 1 []
+0 5 []
+0 6 []
+1 6 []
+2 6 []
+3 9 []
+5 1 []
+5 6 []
+5 10 []
+6 7 []
+7 2 []
+7 8 []
+8 3 []
+8 11 []
+9 4 []
+9 8 []
+10 6 []
+
+Adjacency list:
+0 -> [0, 1, 2]
+1 -> [0, 3, 6]
+2 -> [4, 10]
+3 -> [5, 12]
+4 -> [14]
+5 -> [1, 6, 7, 8]
+6 -> [2, 3, 4, 7, 9, 16]
+7 -> [9, 10, 11]
+8 -> [11, 12, 13, 15]
+9 -> [5, 14, 15]
+10 -> [8, 16]
+11 -> [13]
+
+Chemins les plus courts depuis le sommet 0 :
+Vers le sommet 0 : [0]
+Vers le sommet 1 : [0, 1]
+Vers le sommet 2 : [0, 6, 2]
+Vers le sommet 3 : [0, 6, 7, 8, 3]
+Vers le sommet 4 : [0, 6, 7, 8, 9, 4]
+Vers le sommet 5 : [0, 5]
+Vers le sommet 6 : [0, 6]
+Vers le sommet 7 : [0, 6, 7]
+Vers le sommet 8 : [0, 6, 7, 8]
+Vers le sommet 9 : [0, 6, 7, 8, 9]
+Vers le sommet 10 : [0, 5, 10]
+Vers le sommet 11 : [0, 6, 7, 8, 11]
+Chemin le plus court depuis le sommet 0 vers le sommet 3 : [0, 6, 7, 8, 3]
+
+graphe-oriente-01.gra
+
+Graph is oriented: true
+Number of vertices: 12
+Number of edges: 17
+
+Vertices:
+0 a []
+1 b []
+2 c []
+3 d []
+4 e []
+5 f []
+6 g []
+7 h []
+8 i []
+9 j []
+10 k []
+11 l []
+
+Edges:
+0 1 []
+0 5 []
+0 6 []
+1 6 []
+2 6 []
+3 9 []
+5 1 []
+5 6 []
+5 10 []
+6 7 []
+7 2 []
+7 8 []
+8 3 []
+8 11 []
+9 4 []
+9 8 []
+10 6 []
+
+Adjacency list:
+0 -> [0, 1, 2]
+1 -> [3]
+2 -> [4]
+3 -> [5]
+4 -> []
+5 -> [6, 7, 8]
+6 -> [9]
+7 -> [10, 11]
+8 -> [12, 13]
+9 -> [14, 15]
+10 -> [16]
+11 -> []
+
+Chemins les plus courts depuis le sommet 0 :
+Vers le sommet 0 : [0]
+Vers le sommet 1 : [0, 1]
+Vers le sommet 2 : [0, 6, 7, 2]
+Vers le sommet 3 : [0, 6, 7, 8, 3]
+Vers le sommet 4 : [0, 6, 7, 8, 3, 9, 4]
+Vers le sommet 5 : [0, 5]
+Vers le sommet 6 : [0, 6]
+Vers le sommet 7 : [0, 6, 7]
+Vers le sommet 8 : [0, 6, 7, 8]
+Vers le sommet 9 : [0, 6, 7, 8, 3, 9]
+Vers le sommet 10 : [0, 5, 10]
+Vers le sommet 11 : [0, 6, 7, 8, 11]
+Chemin le plus court depuis le sommet 0 vers le sommet 3 : [0, 6, 7, 8, 3]
