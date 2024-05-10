@@ -1,16 +1,21 @@
 package src;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Scanner;
 
 
 public class Graph {
+
+	// === Variables ===
+
 	private boolean isOriented;
 	private int nbVertices;
 	private int nbEdges;
@@ -18,52 +23,140 @@ public class Graph {
 	private HashMap<Integer, Edge> edges;
 	private HashMap<Integer, LinkedList<Integer>> adjacencyList;
 
-	// Constructeur
-	public Graph(String filePath) {
+
+	// === Constructors ===
+
+	/**
+	 * Creates a new graph with the given file path.
+	 *
+	 * @param filePath the path to the file containing the graph data
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws NoSuchElementException if the file is incomplete or malformed
+	 */
+	public Graph(String filePath) throws FileNotFoundException, NoSuchElementException {
 		try (Scanner scanner = new Scanner(new File(filePath))) {
-			while (scanner.hasNextLine()) {
-				// Header
-				String line = scanner.nextLine();
-				if (line.startsWith("ORIENTED:")) {
-					this.isOriented = line.split(" ")[1].trim().equals("true");
-				}
-				else if (line.startsWith("NB_VERTICES:")) {
-					this.nbVertices = Integer.parseInt(line.split(" ")[1].trim());
-				}
-				else if (line.startsWith("NB_EDGES:")) {
-					this.nbEdges = Integer.parseInt(line.split(" ")[1].trim());
-				}
+			loadHeader(scanner);
 
-				// Vertices
-				else if (line.startsWith("VERTICES")) {
-					this.vertices = new HashMap<>();
-					this.adjacencyList = new HashMap<>();
-					for (int i = 0; i < this.nbVertices; i++) {
-						line = scanner.nextLine();
-						String[] parts = line.split(" ");
-						vertices.put(Integer.parseInt(parts[0]), new Vertex(parts));
-						adjacencyList.put(Integer.parseInt(parts[0]), new LinkedList<>());
-					}
-				}
+			while(!scanner.nextLine().startsWith("VERTICES"));
+			loadVertices(scanner);
 
-				// Edges
-				else if (line.startsWith("EDGES")) {
-					this.edges = new HashMap<>();
-					for(int i = 0; i < this.nbEdges; i++) {
-						line = scanner.nextLine();
-						String[] parts = line.split(" ");
-						edges.put(i, new Edge(i, parts));
-						adjacencyList.get(Integer.parseInt(parts[0])).add(i);
-						if (!this.isOriented)
-							adjacencyList.get(Integer.parseInt(parts[1])).add(i);
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			while (!scanner.nextLine().startsWith("EDGES"));
+			loadEdges(scanner);
+		}
+		catch (FileNotFoundException e) {
+			throw new FileNotFoundException("Error while reading the file " + filePath);
+		}
+		catch (NoSuchElementException e) {
+			throw new NoSuchElementException("The file " + filePath + " is incomplete or malformed" + e.getMessage());
 		}
 	}
 
+	/**
+	 * Loads the header information from the given scanner.
+	 * The header information includes whether the graph is oriented, the number of vertices, and the number of edges.
+	 *
+	 * @param scanner the scanner used to read the header information
+	 * @throws NoSuchElementException if any of the required header lines are missing
+	 */
+	void loadHeader(Scanner scanner) throws NoSuchElementException {
+		String line;
+
+		try {
+			scanner.nextLine(); // Skip the title line
+			scanner.nextLine(); // Skip the comment line
+
+			// ORIENTED
+			line = scanner.nextLine();
+			if (line.startsWith("ORIENTED:"))
+				this.isOriented = line.split(" ")[1].trim().equals("true");
+			else
+				throw new IllegalArgumentException("ORIENTED");
+
+			// NB_VERTICES
+			line = scanner.nextLine();
+			if (line.startsWith("NB_VERTICES:"))
+				this.nbVertices = Integer.parseInt(line.split(" ")[1].trim());
+			else
+				throw new IllegalArgumentException("NB_VERTICES");
+
+			scanner.nextLine(); // Skip the nb_values_by_vertex line
+
+			// NB_EDGES
+			line = scanner.nextLine();
+			if (line.startsWith("NB_EDGES:"))
+				this.nbEdges = Integer.parseInt(line.split(" ")[1].trim());
+			else
+				throw new IllegalArgumentException("NB_EDGES");
+		}
+		catch (IllegalArgumentException e) {
+			throw new NoSuchElementException(" because the line '" + e.getMessage() + "' is missing");
+		}
+	}
+
+	/**
+	 * Loads the vertices of the graph from the given scanner.
+	 * Each line in the scanner represents a vertex, with the vertex ID followed by its properties.
+	 * The loaded vertices are stored in the 'vertices' map, and an empty adjacency list is created for each vertex.
+	 *
+	 * @param scanner the scanner to read the vertex information from
+	 * @throws NoSuchElementException if some vertices are missing in the scanner
+	 */
+	void loadVertices(Scanner scanner) throws NoSuchElementException {
+		String line;
+		this.vertices = new HashMap<>();
+		this.adjacencyList = new HashMap<>();
+
+		try {
+			for(int i = 0; i < this.nbVertices; i++) {
+				line = scanner.nextLine();
+				String[] parts = line.split(" ");
+				vertices.put(Integer.parseInt(parts[0]), new Vertex(parts));
+				adjacencyList.put(Integer.parseInt(parts[0]), new LinkedList<>());
+			}
+		}
+		catch (NoSuchElementException e) {
+			throw new NoSuchElementException(" because some vertices are missing");
+		}
+	}
+
+	/**
+	 * Loads the edges of the graph from the given scanner.
+	 * Each line in the scanner represents an edge, with the format "startVertex endVertex".
+	 * The method populates the edges map and updates the adjacency list accordingly.
+	 *
+	 * @param scanner the scanner to read the edges from
+	 * @throws NoSuchElementException if some edges are missing in the scanner
+	 */
+	void loadEdges(Scanner scanner) throws NoSuchElementException {
+		String line;
+		this.edges = new HashMap<>();
+
+		try {
+			for(int i = 0; i < this.nbEdges; i++) {
+				line = scanner.nextLine();
+				String[] parts = line.split(" ");
+				edges.put(i, new Edge(i, parts));
+				adjacencyList.get(Integer.parseInt(parts[0])).add(i);
+				if (!this.isOriented)
+					adjacencyList.get(Integer.parseInt(parts[1])).add(i);
+			}
+		}
+		catch (NoSuchElementException e) {
+			throw new NoSuchElementException(" because some edges are missing");
+		}
+	}
+
+
+	// === Methods ===
+
+	/**
+	 * Returns a string representation of the graph.
+	 * The string includes information about whether the graph is oriented,
+	 * the number of vertices and edges, the list of vertices and edges,
+	 * and the adjacency list.
+	 *
+	 * @return a string representation of the graph
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
