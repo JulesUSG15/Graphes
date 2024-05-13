@@ -5,26 +5,14 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "graphe-oriente-01.gra";
+        String filePath = "graphe-oriente-02.gra";
 
         try {
-            Graph graph = new Graph(filePath);
+            // === Exo 1 ===
 
-            System.out.println(graph);
 
-            int sourceVertex = 0;
-            Map<Integer, List<Integer>> resultats = graph.plusCourtsChemins(sourceVertex);
-
-            System.out.println("Chemins les plus courts depuis le sommet " + sourceVertex + " :");
-            for (Map.Entry<Integer, List<Integer>> entry : resultats.entrySet()) {
-                System.out.println("Vers le sommet " + entry.getKey() + " : " + entry.getValue());
-            }
-
-            int sourceVertex2 = 0;
-            int destinationVertex2 = 3;
-            List<Integer> resultats2 = graph.trouverPlusCourtChemin(sourceVertex2, destinationVertex2);
-
-            System.out.println("Chemin le plus court depuis le sommet " + sourceVertex2 + " vers le sommet " + destinationVertex2 + " : " + resultats2);
+            // === Exo 2 ===
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
