@@ -27,4 +27,12 @@ class Edge {
 	public int getId() {
         return id;
     }
+
+	public int getIdInitialVertex() {
+		return idInitialVertex;
+	}
+
+	public int getIdFinalVertex() {
+		return idFinalVertex;
+	}
 }

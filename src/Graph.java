@@ -135,10 +135,13 @@ public class Graph {
 			for(int i = 0; i < this.nbEdges; i++) {
 				line = scanner.nextLine();
 				String[] parts = line.split(" ");
-				edges.put(i, new Edge(i, parts));
-				adjacencyList.get(Integer.parseInt(parts[0])).add(i);
+				Edge edge = new Edge(i, parts);
+				// Add the edge to the edges map
+				edges.put(i, edge);
+				// Update the adjacency list
+				adjacencyList.get(Integer.parseInt(parts[0])).add(edge.getIdFinalVertex());
 				if (!this.isOriented)
-					adjacencyList.get(Integer.parseInt(parts[1])).add(i);
+					adjacencyList.get(Integer.parseInt(parts[1])).add(edge.getIdInitialVertex());
 			}
 		}
 		catch (NoSuchElementException e) {
@@ -275,4 +278,7 @@ public class Graph {
 		return chemin;
 	}
 
+	List<Integer> getNeighbors(int vertex) {
+		return adjacencyList.get(vertex);
+	}
 }
