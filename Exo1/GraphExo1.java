@@ -2,9 +2,11 @@ package Exo1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class GraphExo1 {
@@ -46,7 +48,6 @@ public class GraphExo1 {
 
     private void loadEdges() {
         for(Integer id : vertices.keySet()) {
-            VertexExo1 vertex = vertices.get(id);
             String matrix = Integer.toString(id);
             adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(3) + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
             adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(1) + matrix.charAt(4) + matrix.charAt(2) + matrix.charAt(0) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
@@ -58,6 +59,33 @@ public class GraphExo1 {
             adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(8) + matrix.charAt(6) + matrix.charAt(4) + matrix.charAt(7)));
         }
     }
+
+    public void dijkstra(int startId) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(vertices.get(o1).getDistance(), vertices.get(o2).getDistance());
+            }
+        });
+        HashSet<Integer> visited = new HashSet<>();
+        vertices.get(startId).setDistance(0);
+        queue.add(startId);
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            visited.add(current);
+            for (int neighbor : adjacencyList.get(current)) {
+                if (!visited.contains(neighbor)) {
+                    int newDistance = vertices.get(current).getDistance() + 1;
+                    if (newDistance < vertices.get(neighbor).getDistance()) {
+                        vertices.get(neighbor).setDistance(newDistance);
+                        vertices.get(neighbor).setPredecessor(current);
+                        queue.add(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
     
     @Override
     public String toString() {
