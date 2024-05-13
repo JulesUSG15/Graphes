@@ -1,4 +1,4 @@
-package src;
+package Exo2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
