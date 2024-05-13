@@ -12,7 +12,8 @@ public class Main {
             // === Exo 2 ===
             System.out.println("=== Exo 2 ===");
             Graph graph = new Graph("graphe-oriente-02.gra");
-            System.out.println("Nombre de chemins possibles de r à s: " + nbCheminVersSommet(graph, 9, 10));
+            for(int i = 0; i < graph.getNbVertices(); i++)
+                System.out.println("Nombre de chemins de r à " + graph.getVertex(i).getName() + ": " + nbCheminVersSommet(graph, 9, i));
         } catch (Exception e) {
             e.printStackTrace();
         }

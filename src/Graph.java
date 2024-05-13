@@ -150,6 +150,21 @@ public class Graph {
 	}
 
 
+	// === Getters ===
+
+	List<Integer> getNeighbors(int vertex) {
+		return adjacencyList.get(vertex);
+	}
+
+	int getNbVertices() {
+		return nbVertices;
+	}
+
+	Vertex getVertex(int id) {
+		return vertices.get(id);
+	}
+
+
 	// === Methods ===
 
 	/**
@@ -276,9 +291,5 @@ public class Graph {
 		}
 
 		return chemin;
-	}
-
-	List<Integer> getNeighbors(int vertex) {
-		return adjacencyList.get(vertex);
 	}
 }
