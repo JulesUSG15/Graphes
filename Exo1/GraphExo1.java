@@ -49,29 +49,51 @@ public class GraphExo1 {
         for (Integer fromId : vertices.keySet()) {
             for (Integer toId : vertices.keySet()) {
                 if (fromId != toId) {
-                    // Ajouter la logique pour déterminer si une arête doit exister entre fromId et toId
                     VertexExo1 fromVertex = vertices.get(fromId);
                     VertexExo1 toVertex = vertices.get(toId);
-                    int[][] fromMatrix = fromVertex.getMatrix();
-                    int[][] toMatrix = toVertex.getMatrix();
-                    boolean isConnected = true;
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0; j < 3; j++) {
-                            if (fromMatrix[i][j] != toMatrix[i][j]) {
-                                isConnected = false;
-                                break;
-                            }
-                        }
-                        if (!isConnected) {
-                            break;
-                        }
-                    }
-                    if (isConnected) {
+    
+                    if (checkIfConnectedByRotation(fromVertex, toVertex)) {
                         adjacencyList.get(fromId).add(new EdgeExo1(fromId, toId));
                     }
                 }
             }
         }
+    }
+
+    private boolean checkIfConnectedByRotation(VertexExo1 fromVertex, VertexExo1 toVertex) {
+        // Méthode pour vérifier si deux sommets sont connectés par une rotation
+        int[][] fromMatrix = fromVertex.getMatrix();
+        int[][] toMatrix = toVertex.getMatrix();
+        for (int i = 0; i < 4; i++) {
+            if (compareMatrices(fromMatrix, toMatrix)) {
+                return true;
+            }
+            toMatrix = rotateMatrix(toMatrix);
+        }
+        return false;
+    }
+
+    private boolean compareMatrices(int[][] matrix1, int[][] matrix2) {
+        // Méthode pour comparer deux matrices
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (matrix1[i][j] != matrix2[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private int[][] rotateMatrix(int[][] matrix) {
+        // Méthode pour faire pivoter une matrice de 90 degrés dans le sens des aiguilles d'une montre
+        int[][] rotatedMatrix = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                rotatedMatrix[i][j] = matrix[2 - j][i];
+            }
+        }
+        return rotatedMatrix;
     }
     
     @Override
