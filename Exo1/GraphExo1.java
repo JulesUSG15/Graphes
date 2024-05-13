@@ -20,7 +20,6 @@ public class GraphExo1 {
     // Method to load vertices from a file
     private void loadVertices(String filePath) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(filePath)); // Crée un Scanner pour lire le fichier
-        int vertexId = 0; // Initialise un compteur pour les ID de sommets
 
         while (scanner.hasNextLine()) { // Boucle tant qu'il y a des lignes à lire dans le fichier
             String line = scanner.nextLine().trim(); // Lit la ligne suivante et supprime les espaces de début et de fin
@@ -34,8 +33,8 @@ public class GraphExo1 {
                     matrix[i][j] = Character.getNumericValue(line.charAt(i * 3 + j)); // Convertit le caractère correspondant en nombre et l'ajoute à la matrice
                 }
             }
-            vertices.put(vertexId, new VertexExo1(vertexId, matrix)); // Ajoute un nouveau sommet à la HashMap avec l'ID et la matrice
-            vertexId++; // Incrémente l'ID du sommet pour le prochain sommet
+            String vertexId = line; // Utilise la ligne comme ID de sommet
+            vertices.put(Integer.parseInt(vertexId), new VertexExo1(Integer.parseInt(vertexId), matrix)); // Ajoute le sommet au graphe
         }
         scanner.close();
     }
