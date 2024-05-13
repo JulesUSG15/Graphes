@@ -46,16 +46,15 @@ public class GraphExo1 {
 
     private void loadEdges() {
         for(Integer id : vertices.keySet()) {
-            VertexExo1 vertex = vertices.get(id);
             String matrix = Integer.toString(id);
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(3) + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(1) + matrix.charAt(4) + matrix.charAt(2) + matrix.charAt(0) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(2) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(5) + matrix.charAt(3) + matrix.charAt(1) + matrix.charAt(4) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(6) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(7) + matrix.charAt(4) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(7) + matrix.charAt(5) + matrix.charAt(3) + matrix.charAt(6) + matrix.charAt(8)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(3) + matrix.charAt(7) + matrix.charAt(4) + matrix.charAt(6) + matrix.charAt(8) + matrix.charAt(5)));
-            adjacencyList.get(id).add(Integer.getInteger("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(8) + matrix.charAt(6) + matrix.charAt(4) + matrix.charAt(7)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(3) + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(1) + matrix.charAt(4) + matrix.charAt(2) + matrix.charAt(0) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(2) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(5) + matrix.charAt(3) + matrix.charAt(1) + matrix.charAt(4) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(6) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(7) + matrix.charAt(4) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(7) + matrix.charAt(5) + matrix.charAt(3) + matrix.charAt(6) + matrix.charAt(8)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(3) + matrix.charAt(7) + matrix.charAt(4) + matrix.charAt(6) + matrix.charAt(8) + matrix.charAt(5)));
+            adjacencyList.get(id).add(Integer.parseInt("" + matrix.charAt(0) + matrix.charAt(1) + matrix.charAt(2) + matrix.charAt(3) + matrix.charAt(5) + matrix.charAt(8) + matrix.charAt(6) + matrix.charAt(4) + matrix.charAt(7)));
         }
     }
     
