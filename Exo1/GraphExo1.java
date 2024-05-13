@@ -38,6 +38,15 @@ public class GraphExo1 {
         }
         scanner.close();
     }
+
+    private void loadEdges() {
+        for(Integer id : vertices.keySet()) {
+            VertexExo1 vertex = vertices.get(id);
+            String matrix = Integer.toString(id);
+            System.out.println(matrix);
+            adjacencyList.get(id).add("" + matrix.charAt(3) + matrix.charAt(0) + matrix.charAt(2) + matrix.charAt(4) + matrix.charAt(1) + matrix.charAt(5) + matrix.charAt(6) + matrix.charAt(7) + matrix.charAt(8));
+        }
+    }
     
     @Override
     public String toString() {
