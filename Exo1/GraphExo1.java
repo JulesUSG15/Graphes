@@ -4,16 +4,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class GraphExo1 {
 
     // Variables
     private HashMap<Integer, VertexExo1> vertices; // Déclare une variable privée pour stocker les sommets du graphe
+    private HashMap<Integer, LinkedList<Integer>> adjacencyList;
 
     // Constructor
     public GraphExo1(String filePath) throws FileNotFoundException {
         vertices = new HashMap<>();
+        adjacencyList = new HashMap<>();
         loadVertices(filePath); // Appelle la méthode loadVertices pour charger les sommets à partir du fichier
     }
 
@@ -35,6 +38,7 @@ public class GraphExo1 {
             }
             String vertexId = line; // Utilise la ligne comme ID de sommet
             vertices.put(Integer.parseInt(vertexId), new VertexExo1(Integer.parseInt(vertexId), matrix)); // Ajoute le sommet au graphe
+            adjacencyList.put(Integer.parseInt(vertexId), new LinkedList<>());
         }
         scanner.close();
     }
@@ -45,6 +49,10 @@ public class GraphExo1 {
         for (Integer id : vertices.keySet()) {
             sb.append("Vertex ID " + id + ":\n" + vertices.get(id));
             sb.append("\n");
+        }
+        sb.append("\nAdjacency list:\n");
+        for (int vertex : adjacencyList.keySet()) {
+            sb.append(vertex + " -> " + adjacencyList.get(vertex) + "\n");
         }
         return sb.toString();
     }
