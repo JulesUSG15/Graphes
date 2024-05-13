@@ -3,6 +3,8 @@ package Exo1;
 class VertexExo1 {
     int id; // Champ pour stocker l'identifiant unique du sommet.
     int[][] matrix; // Champ pour stocker une matrice 3x3.
+    int distance = Integer.MAX_VALUE;
+    int predecessor = -1;
 
     VertexExo1(int id, int[][] matrix) {
         this.id = id;
@@ -28,5 +30,18 @@ class VertexExo1 {
     public int[][] getMatrix() { // Méthode pour obtenir la matrice du sommet.
         return matrix;
     }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setPredecessor(int predecessor) {
+        this.predecessor = predecessor;
+    }
+
 }
 
