@@ -25,6 +25,8 @@ class VertexExo1 {
         return id;
     }
 
-    
+    public int[][] getMatrix() { // Méthode pour obtenir la matrice du sommet.
+        return matrix;
+    }
 }
 

@@ -3,17 +3,21 @@ package Exo1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class GraphExo1 {
 
     // Variables
     private HashMap<Integer, VertexExo1> vertices; // Déclare une variable privée pour stocker les sommets du graphe
+    private HashMap<Integer, HashSet<EdgeExo1>> adjacencyList;  // Liste d'adjacence pour stocker les arêtes
 
     // Constructor
     public GraphExo1(String filePath) throws FileNotFoundException {
         vertices = new HashMap<>();
+        adjacencyList = new HashMap<>();
         loadVertices(filePath); // Appelle la méthode loadVertices pour charger les sommets à partir du fichier
+        connectVertices();  // Crée les arêtes en fonction de la logique définie
     }
 
     // Method to load vertices from a file
@@ -34,17 +38,52 @@ public class GraphExo1 {
                 }
             }
             vertices.put(vertexId, new VertexExo1(vertexId, matrix)); // Ajoute un nouveau sommet à la HashMap avec l'ID et la matrice
+            adjacencyList.put(vertexId, new HashSet<>());  // Initialise la liste d'adjacence pour chaque nouveau sommet
             vertexId++; // Incrémente l'ID du sommet pour le prochain sommet
         }
         scanner.close();
     }
 
-    // Overridden toString method to print all vertices
+    private void connectVertices() {
+        // Méthode pour connecter les sommets avec des arêtes
+        for (Integer fromId : vertices.keySet()) {
+            for (Integer toId : vertices.keySet()) {
+                if (fromId != toId) {
+                    // Ajouter la logique pour déterminer si une arête doit exister entre fromId et toId
+                    VertexExo1 fromVertex = vertices.get(fromId);
+                    VertexExo1 toVertex = vertices.get(toId);
+                    int[][] fromMatrix = fromVertex.getMatrix();
+                    int[][] toMatrix = toVertex.getMatrix();
+                    boolean isConnected = true;
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            if (fromMatrix[i][j] != toMatrix[i][j]) {
+                                isConnected = false;
+                                break;
+                            }
+                        }
+                        if (!isConnected) {
+                            break;
+                        }
+                    }
+                    if (isConnected) {
+                        adjacencyList.get(fromId).add(new EdgeExo1(fromId, toId));
+                    }
+                }
+            }
+        }
+    }
+    
     @Override
-    public String toString() { // Surcharge la méthode toString pour afficher une représentation textuelle du graphe
-        StringBuilder sb = new StringBuilder("Graph:\n"); 
-        for (VertexExo1 vertex : vertices.values()) { // Boucle sur tous les sommets du graphe
-            sb.append("Vertex ID " + vertex.getId() + ":\n" + vertex + "\n"); // Ajoute l'ID et la représentation textuelle du sommet à la chaîne de sortie
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Graph:\n");
+        for (Integer id : vertices.keySet()) {
+            sb.append("Vertex ID " + id + ":\n" + vertices.get(id));
+            sb.append("Connected to edges: ");
+            for (EdgeExo1 edge : adjacencyList.get(id)) {
+                sb.append(edge + ", ");
+            }
+            sb.append("\n");
         }
         return sb.toString();
     }
